@@ -85,7 +85,7 @@ public class API {
     @Path("/getservice/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getService(@PathParam("id") String id) {
-        String responseString = "{}"\n;
+        String responseString = "{}\n";
         try {
 
             Map<String,String> teamMap = Launcher.dbEngine.getService(id); //getService is in DBEngine
