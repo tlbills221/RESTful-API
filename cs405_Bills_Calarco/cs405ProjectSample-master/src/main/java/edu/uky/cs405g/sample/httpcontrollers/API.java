@@ -33,14 +33,14 @@ public class API {
     @Produces(MediaType.APPLICATION_JSON)
     public Response healthcheck() {
 
-        String responseString = "{\"status_code\":0}";
+        String responseString = "{\"status_code\":0}\n";
         try {
 
             //Here is where you would put your system test, but this is not required.
             //We just want to make sure your API is up and active/
             //status_code = 0 , API is offline
             //status_code = 1 , API is online
-            responseString = "{\"status_code\":1}";
+            responseString = "{\"status_code\":1}\n";
 
         } catch (Exception ex) {
 
@@ -61,7 +61,7 @@ public class API {
     @Path("/listlocations")
     @Produces(MediaType.APPLICATION_JSON)
     public Response listTeams() {
-        String responseString = "{}";
+        String responseString = "{}\n";
         try {
             Map<String,String> teamMap = Launcher.dbEngine.getLocations();
 
@@ -85,7 +85,7 @@ public class API {
     @Path("/getservice/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getService(@PathParam("id") String id) {
-        String responseString = "{}";
+        String responseString = "{}"\n;
         try {
 
             Map<String,String> teamMap = Launcher.dbEngine.getService(id); //getService is in DBEngine
@@ -111,7 +111,7 @@ public class API {
     @Path("/getprovider/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProv(@PathParam("id") String id) {
-        String responseString = "{}";
+        String responseString = "{}\n";
         try {
 
             Map<String,String> teamMap = Launcher.dbEngine.getProv(id); //getProv is in DBEngine
@@ -137,7 +137,7 @@ public class API {
     @Path("/getpatient/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPati(@PathParam("id") String id) {
-        String responseString = "{}";
+        String responseString = "{}\n";
         try {
 
             Map<String,String> teamMap = Launcher.dbEngine.getPati(id); //getPati is in DBEngine
@@ -163,7 +163,7 @@ public class API {
     @Path("/getdata/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getData(@PathParam("id") String id) {
-        String responseString = "{}";
+        String responseString = "{}\n";
         try {
 
             Map<String,String> teamMap = Launcher.dbEngine.getData(id); //getProv is in DBEngine
@@ -188,7 +188,7 @@ public class API {
     @Path("/removeservice/{service_id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteService(@PathParam("service_id") String servId) {
-        String responseString = "{}";
+        String responseString = "{}\n";
         try {
 
 
@@ -200,7 +200,7 @@ public class API {
 
             System.out.println("status: " + status);
 
-            responseString = "{\"status\":\"" + status +"\"}";
+            responseString = "{\"status\":\"" + status +"\"}\n";
 
 
         } catch (Exception ex) {
@@ -222,7 +222,7 @@ public class API {
     @Path("/removeprovider/{provider_id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteProvider(@PathParam("provider_id") String provId) {
-        String responseString = "{}";
+        String responseString = "{}\n";
         try {
 
 
@@ -234,7 +234,7 @@ public class API {
 
             System.out.println("status: " + status);
 
-            responseString = "{\"status\":\"" + status +"\"}";
+            responseString = "{\"status\":\"" + status +"\"}\n";
 
 
         } catch (Exception ex) {
@@ -256,7 +256,7 @@ public class API {
     @Path("/removepatient/{pid}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deletePatient(@PathParam("pid") String pid) {
-        String responseString = "{}";
+        String responseString = "{}\n";
         try {
 
 
@@ -268,7 +268,7 @@ public class API {
 
             System.out.println("status: " + status);
 
-            responseString = "{\"status\":\"" + status +"\"}";
+            responseString = "{\"status\":\"" + status +"\"}\n";
 
 
         } catch (Exception ex) {
@@ -290,7 +290,7 @@ public class API {
     @Path("/removedata/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteData(@PathParam("id") String did) {
-        String responseString = "{}";
+        String responseString = "{}\n";
         try {
 
 
@@ -302,7 +302,7 @@ public class API {
 
             System.out.println("status: " + status);
 
-            responseString = "{\"status\":\"" + status +"\"}";
+            responseString = "{\"status\":\"" + status +"\"}\n";
 
 
         } catch (Exception ex) {
@@ -371,7 +371,7 @@ public class API {
 
                 servMap = Launcher.dbEngine.getService(servID);
 
-                returnString = gson.toJson(servMap);
+                returnString = "{\"status_code\":1}\n";
 
 
             } else {
@@ -431,7 +431,7 @@ public class API {
 
                 provMap = Launcher.dbEngine.getProv(npi);
 
-                returnString = gson.toJson(provMap);
+                returnString = "{\"status_code\":1}\n";
 
 
             } else {
@@ -494,7 +494,7 @@ public class API {
 
                 patiMap = Launcher.dbEngine.getPati(npi);
 
-                returnString = gson.toJson(patiMap);
+                returnString = "{\"status_code\":1}\n";
 
 
             } else {
@@ -557,7 +557,7 @@ public class API {
 
                 dataMap = Launcher.dbEngine.getPati(npi);
 
-                returnString = gson.toJson(dataMap);
+                returnString = "{\"status_code\":1}\n";
 
 
             } else {
