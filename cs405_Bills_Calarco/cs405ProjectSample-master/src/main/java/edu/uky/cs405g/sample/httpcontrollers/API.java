@@ -423,7 +423,13 @@ public class API {
                 //generate a new unique location Id
                 //String locationId = UUID.randomUUID().toString();
 
-                String createUsersTable = "insert into Provider values ('" + npi + "','" + deptID + "')";
+                Map<String,String> depMap = Launcher.dbEngine.getDept(deptID); //check to see if it already exists
+                if(depMap.size() == 0) {
+                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error: Department does not exist!\n")
+                            .header("Access-Control-Allow-Origin", "*").build();
+                }
+
+                String createUsersTable = "insert into Provider values ('" + deptID + "','" + npi + "')";
 
                 System.out.println(createUsersTable);
 
@@ -435,7 +441,7 @@ public class API {
 
 
             } else {
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Can't insert duplicate provider!")
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Can't insert duplicate provider!\n")
                         .header("Access-Control-Allow-Origin", "*").build();
             }
 
@@ -483,8 +489,18 @@ public class API {
 
             if(patiMap.size() == 0) {
 
-                //generate a new unique location Id
-                //String locationId = UUID.randomUUID().toString();
+                Map<String,String> proMap = Launcher.dbEngine.getProv(npi); //check to see if it already exists
+                if(proMap.size() == 0) {
+                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error: Provider does not exist!\n")
+                            .header("Access-Control-Allow-Origin", "*").build();
+                }
+
+                Map<String,String> addMap = Launcher.dbEngine.getLoc(address); //check to see if it already exists
+                if(addMap.size() == 0) {
+                    //generate a new unique institution Id
+                    //String inst_Id = UUID.randomUUID().toString();
+                    Launcher.dbEngine.executeUpdate("insert into Location (address) values ('" + address + "')");
+                }
 
                 String createUsersTable = "insert into Patient values ('" + address + "','" + npi + "','" + pid + "','" + ssn + "')";
 
@@ -498,7 +514,7 @@ public class API {
 
 
             } else {
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Can't insert duplicate provider!")
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Can't insert duplicate patient!\n")
                         .header("Access-Control-Allow-Origin", "*").build();
             }
 
@@ -539,8 +555,8 @@ public class API {
             Map<String, String> myMap = gson.fromJson(jsonString, mapType); //gets map from input str
             String data = myMap.get("data");
             String npi = myMap.get("provider_id");
-            String pid = myMap.get("pid");
-            String servID = myMap.get("ssn");
+            String pid = myMap.get("patient_id");
+            String servID = myMap.get("service_id");
             String id = myMap.get("id");
             Map<String,String> dataMap = Launcher.dbEngine.getData(id); //check to see if it already exists
 
@@ -548,8 +564,23 @@ public class API {
 
                 //generate a new unique location Id
                 //String locationId = UUID.randomUUID().toString();
+                Map<String,String> patiMap = Launcher.dbEngine.getPati(pid); //check to see if it already exists
+                if(patiMap.size() == 0) {
+                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error: Patient does not exist!\n")
+                            .header("Access-Control-Allow-Origin", "*").build();
+                }
+                Map<String,String> servMap = Launcher.dbEngine.getService(servID); //check to see if it already exists
+                if(servMap.size() == 0) {
+                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error: Service does not exist!\n")
+                            .header("Access-Control-Allow-Origin", "*").build();
+                }
+                Map<String,String> proMap = Launcher.dbEngine.getProv(npi); //check to see if it already exists
+                if(proMap.size() == 0) {
+                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error: Provider does not exist!\n")
+                            .header("Access-Control-Allow-Origin", "*").build();
+                }
 
-                String createUsersTable = "insert into Data_Sources values ('" + data + "','" + npi + "','" + pid + "','" + servID + "','" + id + "')";
+                String createUsersTable = "insert into Data_Sources (data, patient_id, service_id, provider_id, id) values ('" + data + "','" + pid + "','" + servID + "','" + npi + "','" + id + "')";
 
                 System.out.println(createUsersTable);
 
@@ -561,7 +592,7 @@ public class API {
 
 
             } else {
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Can't insert duplicate provider!")
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error: Data already exists for that ID!")
                         .header("Access-Control-Allow-Origin", "*").build();
             }
 

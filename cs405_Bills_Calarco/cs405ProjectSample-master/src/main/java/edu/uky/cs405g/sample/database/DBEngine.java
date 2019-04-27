@@ -243,7 +243,7 @@ public class DBEngine {
                     ssn
                  */
                 String address = rs.getString("address");
-                String npi = rs.getString("npi");
+                String npi = rs.getString("provider_id");
                 String pat_id = rs.getString("pid");
                 String ssn = rs.getString("ssn");
                 patiMap.put("address", address);
