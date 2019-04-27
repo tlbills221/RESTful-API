@@ -190,6 +190,15 @@ public class API {
     public Response deleteService(@PathParam("service_id") String servId) {
         String responseString = "{}\n";
         try {
+            
+            Map<String,String> rserMap = Launcher.dbEngine.getService(id);
+            
+            String address = rserMap.get("address");
+            String deptID = rserMap.get("department_id");
+            String taxID = rserMap.get("taxid");
+            
+            if(Launcher.dbEngine.getremLoc(address).size() == 0) {
+               Launcher.dbEngine.executeUpdate("delete from Location WHERE address='" + address + "'");}
 
 
             String queryString = "delete from Service WHERE service_id='" + servId + "'";
@@ -224,7 +233,6 @@ public class API {
     public Response deleteProvider(@PathParam("provider_id") String provId) {
         String responseString = "{}\n";
         try {
-
 
             String queryString = "delete from Provider WHERE provider_id='" + provId + "'";
 
