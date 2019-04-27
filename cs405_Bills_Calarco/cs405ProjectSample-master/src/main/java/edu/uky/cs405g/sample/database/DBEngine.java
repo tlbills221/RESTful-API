@@ -639,4 +639,44 @@ public class DBEngine {
 
         return locMap;
     }
+    
+    public Map<String,String> getremloc(String address) {
+        Map<String,String> rlocMap = new HashMap<>();
+
+        Statement stmt = null;
+        try
+        {
+            Connection conn = ds.getConnection();
+            String queryString = null;
+
+            queryString = "SELECT address FROM Patient WHERE address='" + address + "' UNION SELECT address FROM Service WHERE address='" + address + "'";
+
+            stmt = conn.createStatement();
+
+            ResultSet rs = stmt.executeQuery(queryString);
+
+            while (rs.next()) {
+                /*
+                    inst id
+                    department id
+                 */
+                //String dept_id = rs.getString("department_id");
+                String address = rs.getString("address");
+                //id is input
+                locMap.put("address", address); //taxid is the institution id
+                //deptMap.put("department_id", deptId);
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return deptMap;
+    }
 }
