@@ -5,7 +5,7 @@ CREATE TABLE Patient (
     address varchar(100),
     provider_id varchar(100),
     patient_id varchar(100) NOT NULL,
-    SSN int,
+    SSN varchar(100),
     FOREIGN KEY (address) REFERENCES Location(address) ON DELETE CASCADE,
     FOREIGN KEY (provider_id) REFERENCES Provider(provider_id) ON DELETE CASCADE,
     PRIMARY KEY (patient_id),
